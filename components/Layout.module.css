@@ -1,0 +1,22 @@
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem 11rem;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6rem;
+    min-height: 100vh;
+}
+
+.backToHome {
+    margin: 2rem 0 0;
+    font-weight: 700;
+    font-family: var(--font-mono);
+}
