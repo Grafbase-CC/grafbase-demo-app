@@ -2,6 +2,7 @@ import Layout from "../../components/Layout"
 import styles from "../../styles/Features.module.css"
 import utilStyles from '../../styles/Utils.module.css'
 import SchemaMutationExample from "../../components/SchemaMutationExample"
+import SchemaQueryExample from "../../components/SchemaQueryExample"
 
 export default function Schema(){
     return(
@@ -14,20 +15,27 @@ export default function Schema(){
                 </p>
             </div>  
             <div className={utilStyles.center}>
-                <div className={utilStyles.grid}>
-                    <div className={utilStyles.card}>
-                        <h2 className={styles.title}>Insert a blog post</h2>
-                        <p>
-                            To view an example of a mutation query written in GraphQL, click the button below.
-                        </p>
-                        <p>
-                            With this mutation we create a user and a blog post for that user.
-                        </p>  
-                        <div id="modal-root">
-                            <SchemaMutationExample defaultExample={false} />
-                            <SchemaMutationExample />
-                        </div>
-                    </div>
+                <div className={utilStyles.card}>
+                    <h2 className={styles.title}>Get all users</h2>
+                    <p>
+                        To view an example of a query written in GraphQL, click the button below.
+                    </p>
+                    <p>
+                        With this mutation we return all the users in our database.
+                    </p>  
+                    <SchemaQueryExample defaultExample={false} />
+                    <SchemaQueryExample />
+                </div>
+                <div className={utilStyles.card}>
+                    <h2 className={styles.title}>Insert a blog post</h2>
+                    <p>
+                        To view an example of a mutation query written in GraphQL, click the button below.
+                    </p>
+                    <p>
+                        With this mutation we create a user and a blog post for that user.
+                    </p>  
+                    <SchemaMutationExample defaultExample={false} />
+                    <SchemaMutationExample />
                 </div>
             </div>
         </Layout>

@@ -1,5 +1,7 @@
 
 export default function handler(req, res) {
+  console.log(JSON.stringify(req.body));
+
   fetch(process.env.GRAFBASE_API_URL, {
     method: 'POST',
     headers: {
@@ -13,7 +15,5 @@ export default function handler(req, res) {
     })
   })
   .then(res => res.json())
-  .then(({ data: { userCreate } }) => {
-    res.status(200).json({ userCreate })
-  });
+  .then((data) => res.status(200).json({ data }));
 }

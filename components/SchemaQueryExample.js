@@ -4,7 +4,7 @@ import featureStyles from '/styles/Features.module.css';
 import utilStyles from '/styles/Utils.module.css';
 import JSONPretty from 'react-json-pretty';
 
-function Modal({query, variables = {}, buttonText, defaultExample}) {
+function Modal({query, variables, buttonText, defaultExample}) {
   const [state, setState] = useState();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ function Modal({query, variables = {}, buttonText, defaultExample}) {
   }
 
   function handleDefault() {
-    setState(sample_create_mutation);
+    setState(sampleUsersQuery);
     setOpen(true);
     setLoading(false);
   }
@@ -42,7 +42,7 @@ function Modal({query, variables = {}, buttonText, defaultExample}) {
       <div className={styles.modal_overlay}>
           <div className={styles.modal}>
             <div className={styles.modal_header}>
-              <div className={styles.modal_title}>Grafbase Mutation Example</div>
+              <div className={styles.modal_title}>Grafbase Query Example</div>
               <div className={styles.modal_close}>
                 <button className={styles.close} onClick={() => setOpen(false)}>&times;</button>
               </div>
@@ -70,87 +70,47 @@ function Modal({query, variables = {}, buttonText, defaultExample}) {
   )
 }
 
-const sample_create_mutation = /* GraphQL */`
-  mutation create {
-      userCreate(
-      input: {
-          email: "email"
-          name: "name"
-          posts: {
-          create: {
-              slug: "slug"
-              title: "title"
-              content: "content"
-          }
-          }
-      }
-      ) {
-      user {
+const sampleUsersQuery = /* GraphQL */`
+  query {
+    userCollection(first: 10) {
+      edges {
+        node {
           email
           name
           id
           updatedAt
           createdAt
+        }
+        cursor
       }
-      }
+    }
   }
 `;
 
-const mutation_query =
-      /* GraphQL */`
-    mutation create(
-        $email: Email!, 
-        $name: String!, 
-        $slug: String!, 
-        $title: String!, 
-        $content: String!
-      ) {
-      userCreate(
-        input: {
-          email: $email
-          name: $name
-          posts: {
-            create: {
-              slug: $slug
-              title: $title
-              content: $content
-            }
-          }
-        }
-      ) {
-        user {
+const usersQuery = /* GraphQL */`
+  query ($first: Int!) {
+    userCollection(first: $first) {
+      edges {
+        node {
           email
           name
           id
           updatedAt
           createdAt
         }
+        cursor
       }
     }
+  }
 `;
 
-const Chance = require('chance');  
-const chance = new Chance();
-const email = chance.email();
-const name = chance.name();
-const slug = chance.word();
-const title = chance.sentence({ words: chance.integer({ min: 1, max: 4}) });
-const content = chance.paragraph({ sentences: chance.integer({ min: 1, max: 3}) });
-const variables = {
-  email: email,
-  name: name,
-  slug: slug,
-  title: title,
-  content: content
-};
-
-export default function SchemaMutationExample({defaultExample=true}) {  
-  const buttonText = !defaultExample ? "Show Sample Mutation" : "Create new User and Post"
+export default function SchemaQueryExample({defaultExample=true}) {  
+  const buttonText = !defaultExample ? "Show Sample Query" : "Query all users"
 
   return (
     <Modal
-        query={mutation_query}
-        variables={variables}
+        query={usersQuery}
+        variables={{first: 10}}
         buttonText={buttonText}
         defaultExample={defaultExample}
     />

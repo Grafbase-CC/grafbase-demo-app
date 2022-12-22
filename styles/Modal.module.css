@@ -1,8 +1,11 @@
 
 .modal {
-    width: 500px;
+    width: auto;
+    max-width: 800px;
     height: auto;
     min-height: 200px;
+    max-height: 500px;
+    overflow: auto;
     background-color: rgba(var(--callout-rgb), 1);
     border: 2px solid rgba(var(--callout-border-rgb), 0.7);
     border-radius: var(--border-radius);
@@ -15,9 +18,17 @@
 
 .modal_header {
   display: flex;
-  justify-content: flex-end;
   font-size: 15px;
   font-family: var(--font-mono);
+}
+
+.modal_title {
+  float: left;
+  width: 95%;
+  text-align: center;
+  font-size: 15px;
+  font-family: var(--font-mono);
+  margin-bottom: 0.2rem;
 }
 
 .modal_overlay {
@@ -31,6 +42,11 @@
   align-items: center;
   background-color: rgba(var(--callout-rgb), 0);
   z-index: 3;
+}
+
+.modal_close {
+  float: right;
+  width: 5%;
 }
 
 .close {
