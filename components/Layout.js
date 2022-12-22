@@ -24,7 +24,7 @@ export default function Layout({ children, home }) {
                         target="_blank"
                         rel="noopener noreferrer"
                         >
-                            By{' '}
+                            Created and Powered By{' '}
                             <Image
                                 src="/logo.svg"
                                 alt="Grafbase Logo"
@@ -33,6 +33,7 @@ export default function Layout({ children, home }) {
                                 height={24}
                                 priority
                             />
+                            {' '}& Next.js
                         </Link>
                     </div>
                 </div>
