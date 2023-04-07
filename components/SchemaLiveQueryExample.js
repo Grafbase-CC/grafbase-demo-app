@@ -71,15 +71,17 @@ function Modal({query, variables, buttonText, defaultExample}) {
 }
 
 const sampleUsersQuery = /* GraphQL */`
-  query {
-    userCollection(first: 10) {
+  query @live {
+    postCollection(first: 20) {
       edges {
         node {
-          email
-          name
           id
-          updatedAt
+          slug
+          title
+          content
           createdAt
+          updatedAt
+          user
         }
         cursor
       }
@@ -87,16 +89,15 @@ const sampleUsersQuery = /* GraphQL */`
   }
 `;
 
-const usersQuery = /* GraphQL */`
-  query ($first: Int!) {
-    userCollection(first: $first) {
+const postsQuery = /* GraphQL */`
+  query @live ($first: Int!) {
+    postCollection(first: $first) {
       edges {
         node {
-          email
-          name
           id
-          updatedAt
-          createdAt
+          slug
+          title
+          content
         }
         cursor
       }
@@ -105,12 +106,12 @@ const usersQuery = /* GraphQL */`
 `;
 
 export default function SchemaQueryExample({defaultExample=true}) {  
-  const buttonText = defaultExample ? "Show Sample Query" : "Query all users"
+  const buttonText = defaultExample ? "Show Sample Query" : "Query all blog posts"
 
   return (
     <Modal
-        query={usersQuery}
-        variables={{first: 10}}
+        query={postsQuery}
+        variables={{first: 20}}
         buttonText={buttonText}
         defaultExample={defaultExample}
     />

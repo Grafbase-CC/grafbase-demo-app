@@ -31,8 +31,36 @@ function Modal({query, variables, buttonText, defaultExample}) {
     });
   }
 
+  function handleCursor({cursor}) {
+    console.log("handling cursor");
+    const vars = {
+      after: {cursor},
+      first: 5
+    }
+
+    fetch('/api/grafbase', {
+      method: 'POST',
+      headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        query: nextPageQuery,
+        variables: vars
+      })
+    })
+    .then(res => res.json())
+    .then(data => setState(data))
+    .then(() => setOpen(true))
+    .then(() => setLoading(false))
+    .catch((err) => {
+      console.log(err);
+      setLoading(false);
+    });
+  }
+
   function handleDefault() {
-    setState(sampleUsersQuery);
+    setState(samplePostsQuery);
     setOpen(true);
     setLoading(false);
   }
@@ -48,6 +76,10 @@ function Modal({query, variables, buttonText, defaultExample}) {
               </div>
             </div>
             <div className={styles.modal_body}>
+              <div className={!defaultExample ? styles.cursor : styles.hidden}>
+                <input id="cursor" type="text" placeholder="Enter the cursor to paginate after" />
+                <button onClick={handleCursor(document.getElementById('cursor').innerText)}>Next Page</button>
+              </div>
               <div className={featureStyles.code_snippet}>
                 <JSONPretty
                   id="json-pretty"
@@ -70,16 +102,21 @@ function Modal({query, variables, buttonText, defaultExample}) {
   )
 }
 
-const sampleUsersQuery = /* GraphQL */`
-  query {
-    userCollection(first: 10) {
+const samplePostsQuery = /* GraphQL */`
+  query pagination {
+    postCollection(first: 5) {
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+      }
       edges {
         node {
-          email
-          name
           id
           updatedAt
           createdAt
+          slug
+          title
+          content
         }
         cursor
       }
@@ -87,16 +124,21 @@ const sampleUsersQuery = /* GraphQL */`
   }
 `;
 
-const usersQuery = /* GraphQL */`
-  query ($first: Int!) {
-    userCollection(first: $first) {
+const postsQuery = /* GraphQL */`
+  query pagination ($first: Int!) {
+    postCollection(first: $first) {
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+      }
       edges {
         node {
-          email
-          name
           id
           updatedAt
           createdAt
+          slug
+          title
+          content
         }
         cursor
       }
@@ -104,13 +146,35 @@ const usersQuery = /* GraphQL */`
   }
 `;
 
-export default function SchemaQueryExample({defaultExample=true}) {  
-  const buttonText = defaultExample ? "Show Sample Query" : "Query all users"
+const nextPageQuery = /* GraphQL */`
+  query pagination ($after: String!, $first: Int!) {
+    postCollection(after: $after, first: $first) {
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+      }
+      edges {
+        node {
+          id
+          updatedAt
+          createdAt
+          slug
+          title
+          content
+        }
+        cursor
+      }
+    }
+  }
+`;
+
+export default function SchemaPaginationExample({defaultExample=true}) {  
+  const buttonText = defaultExample ? "Show Sample Query" : "Query all blog posts";
 
   return (
     <Modal
-        query={usersQuery}
-        variables={{first: 10}}
+        query={postsQuery}
+        variables={{first: 5}}
         buttonText={buttonText}
         defaultExample={defaultExample}
     />

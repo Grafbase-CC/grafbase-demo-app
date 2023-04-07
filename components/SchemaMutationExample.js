@@ -63,7 +63,7 @@ function Modal({query, variables = {}, buttonText, defaultExample}) {
   return (
     <button 
       className={utilStyles.submit} 
-      onClick={defaultExample ? handleClick : handleDefault}
+      onClick={!defaultExample ? handleClick : handleDefault}
       >
         {loading ? "Loading" : buttonText}
     </button>
@@ -145,7 +145,7 @@ const variables = {
 };
 
 export default function SchemaMutationExample({defaultExample=true}) {  
-  const buttonText = !defaultExample ? "Show Sample Mutation" : "Create new User and Post"
+  const buttonText = defaultExample ? "Show Sample Mutation" : "Create new User and Post"
 
   return (
     <Modal

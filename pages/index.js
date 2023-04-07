@@ -59,16 +59,16 @@ export default function Home() {
           </Link>
 
           <Link
-            href="features/clerk"
+            href="features/live-queries"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
-              Clerk Authentication <span>-&gt;</span>
+              Live Queries <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Authenticate your users with Clerk.dev
+              Create realtime applications with Live Queries
             </p>
           </Link>
         </div>
